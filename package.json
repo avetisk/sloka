@@ -1,0 +1,22 @@
+{
+  "name": "sloka",
+  "version": "0.0.3",
+  "description": "quickmemo per directory for cli",
+  "keywords": [
+    "note",
+    "memo",
+    "cli"
+  ],
+  "homepage": "https://github.com/avetisk/sloka",
+  "license": "MIT",
+  "devDependencies": {
+    "jshint": "*"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "commander": "~2.0.0"
+  },
+  "bin": "./sloka"
+}

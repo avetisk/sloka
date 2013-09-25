@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var fs = require('fs');
+var commander = require('commander');
+
+commander
+  .option('[option] path')
+  .option('--db', 'Specify a database file')
+  .option('-c, --count', 'Count notes')
+  .option('-a, --add <note>', 'Add a note')
+  .option('-d, --delete <index>', 'Delete a note', function (index) { return parseInt(index, 10); })
+  .parse(process.argv);
+
+
+var dbPath = commander.db || (process.cwd() + './.sloka.json');
+dbPath = fs.existsSync(dbPath) ? dbPath : (process.env['HOME'] + '/.sloka.json');
+var db = fs.existsSync(dbPath) ? require(dbPath) : {};
+var directory = (fs.existsSync(commander.args[0]) ? fs.realpathSync(commander.args[0]) : false) || process.cwd();
+var notes = db[directory];
+
+var save = function () {
+  fs.writeFileSync(dbPath, JSON.stringify(db));
+};
+
+if (commander.count) {
+  console.log(notes ? notes.length : 0);
+
+  return;
+}
+
+if (commander.add) {
+  if (! notes) {
+    notes = db[directory] = [];
+  }
+
+  notes.push(commander.add);
+
+  save();
+
+  console.log('Note added.');
+
+  return;
+}
+
+if (commander.delete) {
+  if (! notes) {
+    return;
+  }
+
+  notes.splice(commander.delete, 1);
+
+  save();
+
+  return;
+}
+
+// NOTE default is to list
+if (! notes) {
+  return;
+}
+
+for (var i = 0, len = notes.length; i < len; i += 1) {
+  console.log(i + '| ' + notes[i]);
+}
