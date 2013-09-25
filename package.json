@@ -18,5 +18,12 @@
   "dependencies": {
     "commander": "~2.0.0"
   },
-  "bin": "./sloka"
+  "author": {
+    "name" : "Avétis KAZARIAN",
+    "email" : "avetis.k@gmail.com",
+    "url" : "https://github.com/avetisk"
+  },
+  "bin": {
+    "sloka": "./sloka"
+  }
 }
